@@ -24,11 +24,11 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
-    phone_number = models.CharField(max_length=14)
+    phone_number = models.CharField(max_length=30)
     birth_date = models.DateField(null=True, blank=True)
 
 class Address(models.Model):
-    customer = models.OneToOneField(to=Customer, on_delete=models.CASCADE, primary_key=True, related_name="address")
+    customer = models.OneToOneField(to=Customer, on_delete=models.CASCADE, primary_key=True)
     province = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
@@ -42,6 +42,7 @@ class Order(models.Model):
         (ORDER_STATUS_UNPAID, 'Unpaid'),
         (ORDER_STATUS_CANCELED, 'Canceled'),
     ]
+
     customer = models.ForeignKey(to=Customer, on_delete=models.PROTECT, related_name='orders')
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
@@ -64,6 +65,7 @@ class Comment(models.Model):
         (COMMENT_STATUS_APPROVED, 'Approved'),
         (COMMENT_STATUS_NOT_APPROVED, 'Not Approved'),
     ]
+
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=255)
     body = models.TextField()
@@ -71,12 +73,12 @@ class Comment(models.Model):
     status = models.CharField(max_length=2, choices=COMMENT_STATUS, default=COMMENT_STATUS_WAITING)
 
 class Cart(models.Model):
-    datetime_created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class CartItem(models.Model):
     cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(to=Product, on_delete=models.PROTECT, related_name='cart_items')
-    quantity = models.PositiveIntegerField()
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='cart_items')
+    quantity = models.PositiveSmallIntegerField()
 
     class Meta:
         unique_together = [['cart', 'product']]
