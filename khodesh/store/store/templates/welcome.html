@@ -7,5 +7,17 @@
 </head>
 <body>
     <h1>Hello Bro</h1>
+    {% for product in products %}
+        <h1>{{ product.id }}</h1>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.category.title }}</p>
+        <p>{{ product.unit_price }} $</p>
+        <hr>
+    {% endfor %}
+    {% for customer in customers %}
+        <h1> {{ customer.first_name }}  {{ customer.last_name }} </h1>
+        <h1> {{ customer.email }} </h1>
+        <h1> {{ customer.birth_date }} </h1>
+    {% endfor %}
 </body>
 </html>
