@@ -8,7 +8,8 @@
 <body>
     <h1>Hello Bro</h1>
     {% for product in products %}
-        <h1>{{ product.id }}</h1>
+    <h1>{{ product.datetime_created }}</h1>
+    <h1>{{ product.id }}</h1>
         <h1>{{ product.name }}</h1>
         <p>{{ product.category.title }}</p>
         <p>{{ product.unit_price }} $</p>
@@ -18,6 +19,29 @@
         <h1> {{ customer.first_name }}  {{ customer.last_name }} </h1>
         <h1> {{ customer.email }} </h1>
         <h1> {{ customer.birth_date }} </h1>
+    {% endfor %}
+    {% for a in q %}
+    <h1>{{ a.order.datetime_created }}</h1>
+    <h1>{{ a.order.status }}</h1>
+    <h1>{{ a.order.customer.first_name }}</h1>
+    <h1>{{ a.order.customer.last_name }}</h1>
+    <h1>{{ a.order.customer.email }}</h1>
+    <h1>{{ a.order.customer.phone_number }}</h1>
+    <h1>{{ a.order.customer.birth_date }}</h1>
+    <h1>{{ a.product.name }}</h1>
+    <h1>{{ a.product.category.title }}</h1>
+    <h1>{{ a.product.category.description }}</h1>
+    <h1>{{ a.product.category.top_product }}</h1>
+    <h1>{{ a.product.slug }}</h1>
+    <h1>{{ a.product.description }}</h1>
+    <h1>{{ a.product.unit_price }}</h1>
+    <h1>{{ a.product.inventory }}</h1>
+    <h1>{{ a.product.datetime_created }}</h1>
+    <h1>{{ a.product.datetime_modified }}</h1>
+    <h1>{{ a.product.discount }}</h1>
+
+    <h1>{{ a.quantity }}</h1>
+    <h1>{{ a.unit_price }}</h1>
     {% endfor %}
 </body>
 </html>
