@@ -1,15 +1,18 @@
 from django.shortcuts import render
+from django.db.models import Q, F
 
 from .models import Product, Customer, OrderItem, Order
 
 def show_data(request):
-    products = Product.objects.filter(datetime_created__year=2023)
+    # products = Product.objects.filter(Q(inventory__lt=2) | Q(inventory__gt=98))
+    # products = Product.objects.filter(~Q(inventory__lt=99))
+    products = Product.objects.filter(id=F('inventory'))
     print(len(products))
     context = {
         'products': products
     }
-    customers = Customer.objects.filter(birth_date__isnull=True)
-    context['customers']=customers
+    # customers = Customer.objects.filter(birth_date__isnull=True)
+    # context['customers']=customers
     return render(request, 'welcome.html', context)
 
     # q = OrderItem.objects.filter(product__id=1047)
