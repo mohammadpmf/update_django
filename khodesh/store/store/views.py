@@ -9,7 +9,10 @@ def show_data(request):
     # products = Product.objects.filter(id=F('inventory'))
     # products = Product.objects.all()[:40]
     # products = Product.objects.all()[20:50]
-    products = Product.objects.filter(name__icontains="oma").order_by('unit_price').reverse()
+    # products = Product.objects.values('slug', 'description', 'unit_price').filter(name__icontains="oma").order_by('unit_price').reverse()
+    # products = Product.objects.values('name', 'inventory').order_by('-inventory')
+    products = Product.objects.filter(order_items__gt=0)
+    print(len(products))
 
                         # p = Product.objects.earliest('unit_price')
                         # p = Product.objects.earliest('-unit_price')
