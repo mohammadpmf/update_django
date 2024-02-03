@@ -6,7 +6,22 @@ from .models import Product, Customer, OrderItem, Order
 def show_data(request):
     # products = Product.objects.filter(Q(inventory__lt=2) | Q(inventory__gt=98))
     # products = Product.objects.filter(~Q(inventory__lt=99))
-    products = Product.objects.filter(id=F('inventory'))
+    # products = Product.objects.filter(id=F('inventory'))
+    # products = Product.objects.all()[:40]
+    # products = Product.objects.all()[20:50]
+    products = Product.objects.filter(name__icontains="oma").order_by('unit_price').reverse()
+
+                        # p = Product.objects.earliest('unit_price')
+                        # p = Product.objects.earliest('-unit_price')
+                        # p = Product.objects.latest('unit_price')
+                        # p = Product.objects.latest('-unit_price')
+                        # p = Product.objects.latest('inventory', 'unit_price')
+                        # latest هم مثل get فقط یه محصول به ما میده و بعد از latest دیگه نمیشه از
+                        # filter و exclude و یا کوئری ست های مشابه استفاده کرد.
+                        # print(p)
+                        # context = {
+                        #     'product': p
+                        # }
     print(len(products))
     context = {
         'products': products
