@@ -11,8 +11,11 @@ def show_data(request):
     # products = Product.objects.all()[20:50]
     # products = Product.objects.values('slug', 'description', 'unit_price').filter(name__icontains="oma").order_by('unit_price').reverse()
     # products = Product.objects.values('name', 'inventory').order_by('-inventory')
-    products = Product.objects.filter(order_items__gt=0)
-    print(len(products))
+    # products_at_least_ordered_for_once = OrderItem.objects.values('product').distinct()
+    # products = Product.objects.filter(id__in=products_at_least_ordered_for_once)
+    # print(list(products_at_least_ordered_for_once))
+    # products = Product.objects.filter(order_items__gt=0) # این یکی رو خودم نوشتم با استفاده از ریلیتد نیم که خیلی باحاله :D
+    products = Product.objects.values_list('name', 'inventory').order_by('-inventory')
 
                         # p = Product.objects.earliest('unit_price')
                         # p = Product.objects.earliest('-unit_price')
