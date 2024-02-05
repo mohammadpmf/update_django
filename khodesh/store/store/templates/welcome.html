@@ -6,16 +6,51 @@
     <title>Document</title>
 </head>
 <body>
-    {% comment %} {{ product.unit_price }} {% endcomment %}
     <h1>Hello Bro</h1>
+
+    {% comment %} <h1>Tamrin 1</h1>
+    {% for comment in comments %}
+        <h1>Commentor: {{ comment.name }}</h1>
+        <h1>Status: {{ comment.status }}</h1>
+        <h1>Product Name: {{ comment.product.name }}</h1>
+        <hr>
+    {% endfor %} {% endcomment %}
+
+    {% comment %} <h1>Tamrin 2</h1>
     {% for product in products %}
+        <h1>Product: {{ product.name }} ||| Category: {{ product.category.title }} </h1>
+        <p>************************************************************************</p>
+        {% for comment in product.comments.all %}
+            <p>Comment ID: {{ comment.id }}</p>
+            <p>Body: {{ comment.body }}</p>
+            <p>------------------</p>
+        {% endfor %}
+    <hr>
+    {% endfor %} {% endcomment %}
+
+    <h1>Tamrin 3</h1>
+    {% for order in orders %}
+        <h1>Order ID: {{ order.id }} | Order Situation: {{ order.status }}</h1>
+        <h1>Customer name: {{ order.customer.first_name }}</h1>
+        <p>************************************************************************</p>
+        {% for item in order.items.all %}
+            <p>Order Item ID: {{ item.id }}</p>
+            <p>Order Item Product Name: {{ item.quantity }}</p>
+            <p>------------------</p>
+        {% endfor %}
+    <hr>
+    {% endfor %}
+
+
+    {% comment %} {{ product.unit_price }} {% endcomment %}
+    {% comment %} {% for product in products %}
         <h1>Title: {{ product.name }}</h1>
         <p>Price: {{ product.unit_price }} $</p>
         {% for order_item in product.order_items.all %}
             <p> Quantity: {{ order_item.quantity }} </p>
         {% endfor %}
         <hr>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 
     {% comment %} {% for product in products %}
     <h1>{{ product.datetime_created }}</h1>

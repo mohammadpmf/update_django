@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q, F
 
-from .models import Product, Customer, OrderItem, Order
+from .models import Product, Customer, OrderItem, Order, Comment
 
 def show_data(request):
     # products = Product.objects.filter(Q(inventory__lt=2) | Q(inventory__gt=98))
@@ -36,11 +36,22 @@ def show_data(request):
     # products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category')
     # products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category', 'category__title', 'category__description')
     # products = Product.objects.prefetch_related('order_items').all()
-    products = Product.objects.prefetch_related('order_items').all()
-    print(len(products))
+    # comments = Comment.objects.only('name', 'status', 'product').select_related('product') # Tamrin 1
+    # print(len(comments))
+    # context = {
+    #     'comments': comments
+    # }
+    # products = Product.objects.all().select_related('category').prefetch_related('comments') # Tamrin 2
+    # print(len(products))
+    # context = {
+    #     'products': products
+    # }
+    orders = Order.objects.all().prefetch_related('items').select_related('customer') # Tamrin 3
+    print(len(orders))
     context = {
-        'products': products
+        'orders': orders
     }
+    
     # customers = Customer.objects.filter(birth_date__isnull=True)
     # context['customers']=customers
     return render(request, 'welcome.html', context)
