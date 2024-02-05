@@ -9,13 +9,22 @@
     {% comment %} {{ product.unit_price }} {% endcomment %}
     <h1>Hello Bro</h1>
     {% for product in products %}
-    {% comment %} <h1>{{ product.datetime_created }}</h1> {% endcomment %}
+        <h1>Title: {{ product.name }}</h1>
+        <p>Price: {{ product.unit_price }} $</p>
+        {% for order_item in product.order_items.all %}
+            <p> Quantity: {{ order_item.quantity }} </p>
+        {% endfor %}
+        <hr>
+    {% endfor %}
+
+    {% comment %} {% for product in products %}
+    <h1>{{ product.datetime_created }}</h1>
     <h1>{{ product.id }}</h1>
         <h1>{{ product.name }}</h1>
         <p>{{ product.unit_price }} $</p>
         <p>{{ product.category.title }}</p>
         <hr>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
     {% comment %} {% for customer in customers %}
         <h1> {{ customer.first_name }}  {{ customer.last_name }} </h1>
         <h1> {{ customer.email }} </h1>

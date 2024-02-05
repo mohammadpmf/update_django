@@ -33,7 +33,11 @@ def show_data(request):
     # products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category')
     # q = OrderItem.objects.select_related('order','product').all() # تمرینی که داده بود رو خودم بیشترش رو گرفتم. دیدم این طوری درست کار میکنه. میشه ۲ بار هم سلکت ریلیتد رو صدا کرد.
     # q = OrderItem.objects.select_related('order').select_related('product').all()
-    products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category')
+    # products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category')
+    # products = Product.objects.select_related('category').only('id', 'name', 'description', 'unit_price', 'category', 'category__title', 'category__description')
+    # products = Product.objects.prefetch_related('order_items').all()
+    products = Product.objects.prefetch_related('order_items').all()
+    print(len(products))
     context = {
         'products': products
     }
