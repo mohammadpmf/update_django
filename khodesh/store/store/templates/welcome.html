@@ -6,17 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    {{ product.unit_price }}
+    {% comment %} {{ product.unit_price }} {% endcomment %}
     <h1>Hello Bro</h1>
     {% for product in products %}
-    <h1>{{ product.datetime_created }}</h1>
+    {% comment %} <h1>{{ product.datetime_created }}</h1> {% endcomment %}
     <h1>{{ product.id }}</h1>
         <h1>{{ product.name }}</h1>
-        <p>{{ product.category.title }}</p>
         <p>{{ product.unit_price }} $</p>
+        <p>{{ product.category.title }}</p>
         <hr>
     {% endfor %}
-    {% for customer in customers %}
+    {% comment %} {% for customer in customers %}
         <h1> {{ customer.first_name }}  {{ customer.last_name }} </h1>
         <h1> {{ customer.email }} </h1>
         <h1> {{ customer.birth_date }} </h1>
@@ -43,6 +43,6 @@
 
     <h1>{{ a.quantity }}</h1>
     <h1>{{ a.unit_price }}</h1>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 </body>
 </html>
