@@ -46,7 +46,7 @@ def show_data(request):
     # context = {
     #     'products': products
     # }
-    orders = Order.objects.all().prefetch_related('items').select_related('customer') # Tamrin 3
+    orders = Order.objects.all().prefetch_related('items__product').select_related('customer') # Tamrin 3
     print(len(orders))
     context = {
         'orders': orders

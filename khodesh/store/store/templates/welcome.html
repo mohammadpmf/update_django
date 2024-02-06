@@ -34,8 +34,7 @@
         <h1>Customer name: {{ order.customer.first_name }}</h1>
         <p>************************************************************************</p>
         {% for item in order.items.all %}
-            <p>Order Item ID: {{ item.id }}</p>
-            <p>Order Item Product Name: {{ item.quantity }}</p>
+            <p>Order Item ID: {{ item.id }} | Quantity: {{ item.quantity }} | Product Nmae: {{ item.product.name }} </p>
             <p>------------------</p>
         {% endfor %}
     <hr>
