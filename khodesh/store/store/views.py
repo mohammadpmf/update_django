@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q, F
+from django.db.models import Count, Avg, Sum, Min, Max
 
 from .models import Product, Customer, OrderItem, Order, Comment
 
@@ -46,12 +47,27 @@ def show_data(request):
     # context = {
     #     'products': products
     # }
-    orders = Order.objects.all().prefetch_related('items__product').select_related('customer') # Tamrin 3
-    print(len(orders))
+    # orders = Order.objects.all().prefetch_related('items__product').select_related('customer') # Tamrin 3
+    # print(len(orders))
+    # context = {
+    #     'orders': orders
+    # }
+    # products = Product.objects.aggregate(Avg('unit_price'))
+    # products = Product.objects.aggregate(count=Count('id'), avg=Avg('unit_price'), max_inventory=Max('inventory'))
+    # q = Product.objects.filter(inventory__gt=10).aggregate(count=Count('id'), avg=Avg('unit_price')) # Tamrin 1
+    # q = OrderItem.objects.filter(product=1015).aggregate(Count('id')) # Tamrin 2 ravesh avval
+    # Tamrin 2 raveshe dovvom. mitoonim az manager e related name i ke dade boodim estefade konim. mesle 2 khatte zir
+    # product = Product.objects.get(id=1015)
+    # q = product.order_items.aggregate(Count('id'))
+    # Tamrin 3 do khatte ba'd
+    q = OrderItem.objects.values('product_id').distinct().count()
+    q = Product.objects.count()-q
+    # Tamrin 4 خونه حل کنم.
+    # چه تعداد پروداکت هستند که در سال ۲۰۲۲ فروش رفتند.           
+    print(q)
     context = {
-        'orders': orders
+        'products': 'alaki error nade'
     }
-    
     # customers = Customer.objects.filter(birth_date__isnull=True)
     # context['customers']=customers
     return render(request, 'welcome.html', context)
