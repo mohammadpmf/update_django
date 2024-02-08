@@ -60,11 +60,12 @@ def show_data(request):
     # product = Product.objects.get(id=1015)
     # q = product.order_items.aggregate(Count('id'))
     # Tamrin 3 do khatte ba'd
-    q = OrderItem.objects.values('product_id').distinct().count()
-    q = Product.objects.count()-q
-    # Tamrin 4 خونه حل کنم.
-    # چه تعداد پروداکت هستند که در سال ۲۰۲۲ فروش رفتند.           
+    # q = OrderItem.objects.values('product_id').distinct().count()
+    # q = Product.objects.count()-q
+    # Tamrin 4
+    q = OrderItem.objects.all().count()
     print(q)
+
     context = {
         'products': 'alaki error nade'
     }
