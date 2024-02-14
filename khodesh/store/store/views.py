@@ -63,9 +63,8 @@ def show_data(request):
     # q = OrderItem.objects.values('product_id').distinct().count()
     # q = Product.objects.count()-q
     # Tamrin 4
-    q = OrderItem.objects.all().count()
+    q = OrderItem.objects.filter(order__datetime_created__year=2024).count()
     print(q)
-
     context = {
         'products': 'alaki error nade'
     }
