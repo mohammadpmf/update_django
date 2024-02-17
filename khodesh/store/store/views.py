@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q, F
 from django.db.models import Count, Avg, Sum, Min, Max
+from django.db.models import Value, Func, ExpressionWrapper, DecimalField
 
 from .models import Product, Customer, OrderItem, Order, Comment
 
@@ -63,11 +64,26 @@ def show_data(request):
     # q = OrderItem.objects.values('product_id').distinct().count()
     # q = Product.objects.count()-q
     # Tamrin 4
-    q = OrderItem.objects.filter(order__datetime_created__year=2024).count()
-    print(q)
+    # q = OrderItem.objects.filter(order__datetime_created__year=2024).count()
+    # print(q)
+    ##################################################################################
+
+    # Annotation
+    # products = Product.objects.all().annotate(price=F('unit_price'))[:2]
+    # products = OrderItem.objects.all().annotate(total_price=F('unit_price')*F('quantity'))
+    # products = Customer.objects.annotate(full_name = Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT')).defer('first_name', 'last_name')
+    # products = Order.objects.annotate(items_count=Count('items'))
+    # products = Customer.objects.annotate(number_of_orders=Count('orders'))
+    products = OrderItem.objects.annotate(total_price=ExpressionWrapper(F('quantity') * F('unit_price'), output_field=DecimalField()))
+    print(products)
     context = {
-        'products': 'alaki error nade'
+        'products': products,
     }
+    # context = {
+    #     'products': 'alaki error nade',
+    # }
+
+    
     # customers = Customer.objects.filter(birth_date__isnull=True)
     # context['customers']=customers
     return render(request, 'welcome.html', context)
