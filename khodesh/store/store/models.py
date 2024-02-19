@@ -33,6 +33,21 @@ class Address(models.Model):
     city = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
 
+class OrderManager(models.Manager):
+    def get_by_status(self, status='u'):
+        if status==Order.ORDER_STATUS_UNPAID:
+            return self.get_queryset().filter(status=Order.ORDER_STATUS_UNPAID)
+        if status==Order.ORDER_STATUS_PAID:
+            return self.get_queryset().filter(status=Order.ORDER_STATUS_PAID)
+        if status==Order.ORDER_STATUS_CANCELED:
+            return self.get_queryset().filter(status=Order.ORDER_STATUS_CANCELED)
+        raise TypeError("You should only choose one of theese stats:\nu (for unpaid), p (for paid) or c (for canceled)!")
+
+
+class UnpaidOrderManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Order.ORDER_STATUS_UNPAID)
+
 class Order(models.Model):
     ORDER_STATUS_PAID = 'p'
     ORDER_STATUS_UNPAID = 'u'
@@ -47,6 +62,9 @@ class Order(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
 
+    mymanager=OrderManager()
+    unpaid_manager=UnpaidOrderManager()
+
 class OrderItem(models.Model):
     order = models.ForeignKey(to=Order, on_delete=models.PROTECT, related_name='items')
     product = models.ForeignKey(to=Product, on_delete=models.PROTECT, related_name='order_items')
@@ -55,6 +73,20 @@ class OrderItem(models.Model):
 
     class Meta:
         unique_together = [['order', 'product']]
+
+class CommentManager(models.Manager):
+    def get_approved(self):
+        return self.get_queryset().filter(status=Comment.COMMENT_STATUS_APPROVED)
+
+    def get_not_approved(self):
+        return self.get_queryset().filter(status=Comment.COMMENT_STATUS_NOT_APPROVED)
+
+    def get_waiting(self):
+        return self.get_queryset().filter(status=Comment.COMMENT_STATUS_WAITING)
+
+class ApprovedCommentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Comment.COMMENT_STATUS_APPROVED)
 
 class Comment(models.Model):
     COMMENT_STATUS_WAITING = 'w'
@@ -71,6 +103,9 @@ class Comment(models.Model):
     body = models.TextField()
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=COMMENT_STATUS, default=COMMENT_STATUS_WAITING)
+
+    myobjects = CommentManager()
+    approved_manager = ApprovedCommentManager()
 
 class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

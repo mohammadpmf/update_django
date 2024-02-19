@@ -74,8 +74,20 @@ def show_data(request):
     # products = Customer.objects.annotate(full_name = Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT')).defer('first_name', 'last_name')
     # products = Order.objects.annotate(items_count=Count('items'))
     # products = Customer.objects.annotate(number_of_orders=Count('orders'))
-    products = OrderItem.objects.annotate(total_price=ExpressionWrapper(F('quantity') * F('unit_price'), output_field=DecimalField()))
-    print(products)
+    # products = OrderItem.objects.annotate(total_price=ExpressionWrapper(F('quantity') * F('unit_price'), output_field=DecimalField()))
+    # print(products)
+
+    # Custom Manager # اسم منیجر ها رو دقت کنم چون عمدا چیزهای مختلف گذاشته بودم. یه جا
+    # مای آبجکتز یه جا مای منیجر. بعدا ثابت از یه چیز استفاده کنم اما اینجا چون موقع 
+    # آموزش بود عمدا این کار رو کردم.
+    # products = Comment.myobjects.get_approved()
+    # products = Comment.objects.all()
+    # products = Order.mymanager.get_by_status('c')
+    # products = Order.unpaid_manager.all()
+
+
+    products = ''
+    print(list(products), len(list(products)))
     context = {
         'products': products,
     }
