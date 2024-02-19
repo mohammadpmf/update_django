@@ -84,18 +84,31 @@ def show_data(request):
     # products = Comment.objects.all()
     # products = Order.mymanager.get_by_status('c')
     # products = Order.unpaid_manager.all()
-
-
-    products = ''
-    print(list(products), len(list(products)))
-    context = {
-        'products': products,
-    }
+    # print(list(products), len(list(products)))
     # context = {
-    #     'products': 'alaki error nade',
+    #     'products': products,
     # }
 
+    # # create kardan
+    # product = Product.objects.get(id=1001)
+    # # ravesh 1 استفاده از منیجر
+    # Comment.objects.create(
+    #     name='Mohammad',
+    #     body="Harchizi",
+    #     product=product
+    # )
+    # # ravesh 2 ساخت یک نمونه از کلاس و صدا کردن تابع سیو
+    # c = Comment()
+    # c.name = "Amin"
+    # c.body = "in ro amin sakhte"
+    # c.product = product
+    # c.save()
+
+    # update kardan
     
+    context = {
+        'products': 'alaki error nade',
+    }
     # customers = Customer.objects.filter(birth_date__isnull=True)
     # context['customers']=customers
     return render(request, 'welcome.html', context)

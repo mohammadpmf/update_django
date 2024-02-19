@@ -104,6 +104,7 @@ class Comment(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=COMMENT_STATUS, default=COMMENT_STATUS_WAITING)
 
+    objects = CommentManager()
     myobjects = CommentManager()
     approved_manager = ApprovedCommentManager()
 
