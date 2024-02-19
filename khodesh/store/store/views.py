@@ -3,7 +3,7 @@ from django.db.models import Q, F
 from django.db.models import Count, Avg, Sum, Min, Max
 from django.db.models import Value, Func, ExpressionWrapper, DecimalField
 
-from .models import Product, Customer, OrderItem, Order, Comment
+from .models import Product, Customer, OrderItem, Order, Comment, Category
 
 def show_data(request):
     # products = Product.objects.filter(Q(inventory__lt=2) | Q(inventory__gt=98))
@@ -105,7 +105,62 @@ def show_data(request):
     # c.save()
 
     # update kardan
+    # ravesh 1 ke dg test nakardam. chon dorost nist.
+    # در واقع ما یه نمونه از کلاس میسازیم که چون آی دیش تکراری هست، وقتی میخواد ذخیره
+    # کنه، تازه اون موقع میبینه که این آی دی وجود داشت. پس جدید نمیسازه و همون قبلی
+    # رو ویرایش میکنه. اما چون ما مثلا فقط بهش تایتل دادیم، بقیه فیلدها رو با استرینگ
+    # خالی پر میکنه که باعث میشه یا اطلاعات بقیه فیلدها از بین برن یا اگه نالبل نیستند،
+    # ارور بگیریم که هیچ حالتش خوب نیست.
+    # c = Category(id=1001) # ya c = Category(pk=1001)
+    # c.title='car'
+    # c.save()
+
+    # ravesh 2 ke dorost tar az avvali hast.
+    # product = Product.objects.get(pk=1001)
+    # این طوری از دیتابیس کل اون نمونه رو میگیریم و از اول آبجکت جدید نمیسازیم
+    # بلکه رو همون قبلیه کار رو ادامه میدیم. حالا اگه فقط یه فیلد رو عوض کنیم
+    # و به بقیه دست نزنیم، همون مقدار قبلی خودش رو داره و مشکلی پیش نمیاد.
+    # c.title = 'car'
+    # c = Category.objects.get(id=196)
+    # c.top_product = product
+    # c.save()
+    # اما تو این روش ۲ تا کوئری میزنه به دیتابیس. حالا اگه بخوایم یه کوئری بزنه،
+    # میتونیم از روش ۳ استفاده کنیم که استفاده از منیجر هست.
     
+    # ravesh 3 
+    # Category.objects.filter(id__range=(185, 192)).update(title='hello')
+    # فقط خیلی دقت کنم. توضیح داد که موقع استفاده از آپدیت باید دقت کنیم
+    # وگرنه کل دیتابیس به هم میریزه. خودم هم عمدا بدون فیلتر استفاده کردم زدم
+    # همه عنوان ها رو عوض کرد. یه کوئری کمتر میزنه اما دقت بکنیم. تو مدل قبلی با 
+    # get کار کردیم که فقط یه نمونه رو به ما میداد و اون رو سیو میکردیم.
+    # اما روی یه دونه متد آپدیت رو نمیشه صدا کرد. حالت عادی اگه فقط تابع
+    # آپدیت رو با منیجر صدا کنیم، به صورت پیش فرض روی همه عمل میکنه. خودمون
+    # هم اگه فیلتر درستی ننویسیم ممکنه که چندین تا آیتم رو عوض کنه. دیلیت هم داره
+    # که اون هم حتما همین مشکل رو داره. تنها تفاوت اینه که دیلیت رو میشه رو یه
+    # دونه آبجکتی که با گِت گرفتیم صدا زد. اما آپدیت رو نمیشه و اسم آپدیت اونجا سیو
+    # هست. اما روی کوئری ست ها هم آپدیت داریم هم دیلیت.
+
+    # delete kardan
+    # Category.objects.create(title='alaki') # واسه این که قبلی ها رو پاک نکنیم یه الکی ساختیم اول
+    # raveshe avval با استفاده از منیجر که دقت کنیم حتما فیلتر درست بزنیم بعد پاک کنیم.
+    # Category.objects.filter(title='alaki').delete()
+
+    # raveshe dovvom
+    # c = Category.objects.get(pk=204)
+    # c.delete()
+
+    # raveshe sevvom
+    # اینجا برعکس آپدیت کردن بود و این یکی یه کوئری کمتر نسبت به روش دوم می فرستاد.
+    # علاوه بر این روش دوم وقتی که اون آی دی وجود نداره ارور میده.
+    # اما این یکی ارور نمیده. چون همون لحظه میسازه. اگه وجود داشته باشه که همونی
+    # که وجود داشت رو پیدا میکنه و پاک میکنه و ارور نمیده. اگه وجود نداشته باشه هم
+    # که چون جدید ساخته مشکلی نداره و همین جدیده رو پاک میکنه.
+    # c = Category(pk=205)
+    # c.delete()
+
+    # Tamrin create update delete
+    
+
     context = {
         'products': 'alaki error nade',
     }
