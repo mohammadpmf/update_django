@@ -62,6 +62,7 @@ class Order(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
 
+    objects=OrderManager()
     mymanager=OrderManager()
     unpaid_manager=UnpaidOrderManager()
 
