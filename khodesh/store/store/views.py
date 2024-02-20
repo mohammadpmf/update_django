@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.db.models import Q, F
 from django.db.models import Count, Avg, Sum, Min, Max
 from django.db.models import Value, Func, ExpressionWrapper, DecimalField
+from django.db import transaction
+
 
 from .models import Product, Customer, OrderItem, Order, Comment, Category
 
@@ -159,76 +161,66 @@ def show_data(request):
     # c.delete()
 
     # Tamrin create update delete
-    # ghesmate avvalesh دقت کنم که به خاطر آی دی های استفاده شده
-    # ممکنه رو سیستم خونه کار نکنه. دستکاری هم باید بشه.
-    # category = Category.objects.create(
-    #     title='a',
-    #     description='aaaa',
-    #     top_product_id=1001
-    # )
-    # product1 = Product(
-    #     name='alaki1',
-    #     category=category,
-    #     slug='salam-khoobi',
-    #     description='harchizi mitoone bashe',
-    #     unit_price=775.11,
-    #     inventory=50
-    # )
-    # product1.save()
-    # product2=Product(
-    #     name='alaki2',
-    #     category=category,
-    #     slug='salam-a-b-c',
-    #     description='harchizi mitoone bashe 2',
-    #     unit_price=100,
-    #     inventory=60
-    # )
-    # product2.save()
-    # order = Order.objects.create(customer_id=200)
-    # order.save()
-    # order_item1 = OrderItem(
-    #     order=order,
-    #     product=product1,
-    #     quantity=1,
-    #     unit_price=product1.unit_price,
-    # )
-    # order_item2=OrderItem(
-    #     order=order,
-    #     product=product2,
-    #     quantity=2,
-    #     unit_price=product2.unit_price,
-    # )
-    # product3 = Product.objects.get(id=1003)
-    # order_item3=OrderItem(
-    #     order=order,
-    #     product=product3,
-    #     quantity=3,
-    #     unit_price=product3.unit_price,
-    # )
-    # order_item1.save()
-    # order_item2.save()
-    # order_item3.save()
+    # with transaction.atomic():
+        # ghesmate avvalesh دقت کنم که به خاطر آی دی های استفاده شده
+        # ممکنه رو سیستم خونه کار نکنه. دستکاری هم باید بشه.
+        # category = Category.objects.create(
+        #     title='a',
+        #     description='aaaa',
+        #     top_product_id=3001
+        # )
+        # product1 = Product.objects.create(
+        #     name='alaki1',
+        #     category=category,
+        #     slug='salam-khoobi',
+        #     description='harchizi mitoone bashe',
+        #     unit_price=775.11,
+        #     inventory=50
+        # )
+        # product2=Product.objects.create(
+        #     name='alaki2',
+        #     category=category,
+        #     slug='salam-a-b-c',
+        #     description='harchizi mitoone bashe 2',
+        #     unit_price=100,
+        #     inventory=60
+        # )
+        # order = Order.objects.create(customer_id=109)
+        # order_item1 = OrderItem.objects.create(
+        #     order=order,
+        #     product=product1,
+        #     quantity=1,
+        #     unit_price=product1.unit_price,
+        # )
+        # order_item2=OrderItem.objects.create(
+        #     order=order,
+        #     product=product2,
+        #     quantity=2,
+        #     unit_price=product2.unit_price,
+        # )
+        # product3 = Product.objects.get(id=3001)
+        # order_item3=OrderItem.objects.create(
+        #     order=order,
+        #     product=product3,
+        #     quantity=3,
+        #     unit_price=product3.unit_price,
+        # )
 
-    # ghesmate dovvome tamrin
-    # category = Category.objects.latest('id')
-    # ya
-    # category = Category.objects.earliest('-id')
-    # ya
-    # category = Category.objects.last()
-    # category.title='mobiles'
-    # category.save()
-    
-    # ghesmate sevvome tamrin
-    # OrderItem.objects.filter(product__name__in=['alaki1', 'alaki2'])
-    # Order.objects.filter(name__in=['alaki1', 'alaki2']).delete()
-    
-    OrderItem.objects.filter(order__id=73).delete()
-    Order.objects.filter(id=73).delete()
-    category = Category.objects.last()
-    Product.objects.filter(category=category).delete()
-    category.delete()
-
-
+        # ghesmate dovvome tamrin
+        # category = Category.objects.latest('id')
+        # ya
+        # category = Category.objects.earliest('-id')
+        # ya
+        # category = Category.objects.last()
+        # category.title='mobiles'
+        # category.save()
+        
+        # # ghesmate sevvome tamrin
+        # OrderItem.objects.filter(order__id=45).delete()
+        # Order.objects.filter(id=45).delete()
+        # category = Category.objects.last()
+        # Product.objects.filter(category=category).delete()
+        # category.delete()
 
 
     context = {
