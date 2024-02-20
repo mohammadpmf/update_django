@@ -12,6 +12,10 @@ class Discount(models.Model):
     discount = models.FloatField()
     description = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.discount}"
+    
+
 class Product(models.Model):
     name = models.CharField(max_length=255) 
     category = models.ForeignKey(to=Category, on_delete=models.PROTECT, related_name='products')
@@ -23,6 +27,9 @@ class Product(models.Model):
     datetime_modified = models.DateTimeField(auto_now=True)
     discounts = models.ManyToManyField(to=Discount, blank=True)
 
+    def __str__(self):
+        return f"{self.name}"
+    
 class Customer(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -30,11 +37,17 @@ class Customer(models.Model):
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 class Address(models.Model):
     customer = models.OneToOneField(to=Customer, on_delete=models.CASCADE, primary_key=True)
     province = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.province}-{self.city}-{self.street}"
 
 class OrderManager(models.Manager):
     def get_by_status(self, status='u'):
@@ -122,4 +135,8 @@ class CartItem(models.Model):
 
     class Meta:
         unique_together = [['cart', 'product']]
+
+    def __str__(self) -> str:
+        return f"{self.product} {'*'*10} Amount: {self.quantity}"
+
 
