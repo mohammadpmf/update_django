@@ -1,4 +1,4 @@
-with open('seen2.txt', encoding='utf-8') as f, open('seen.txt', 'w', encoding='utf-8') as f2:
+with open('seen.txt', encoding='utf-8') as f, open('seen2.txt', 'w', encoding='utf-8') as f2:
     while True:
         t = f.readline().strip()
         index = t.find(':')
