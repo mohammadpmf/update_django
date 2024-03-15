@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from decimal import Decimal
 from random import randint
+from .models import Customer
 
 DOLLORS_TO_RIALS = 500000
 TAX=Decimal(0.09)
@@ -27,3 +28,21 @@ class ProductSerializer(serializers.Serializer):
     def get_price_after_tax(self, product):
         return product.unit_price * (1+TAX)
     
+
+class CustomerSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
+    phone_number = serializers.CharField(max_length=255)
+    birth_date = serializers.DateField()
+    address = serializers.StringRelatedField()
+
+
+class OrderSerializer(serializers.Serializer):
+    # customer = serializers.PrimaryKeyRelatedField(
+    #     queryset = Customer.objects.all()
+    # )
+    # customer = serializers.StringRelatedField()
+    customer = CustomerSerializer()
+    datetime_created = serializers.DateTimeField()
+    status = serializers.CharField(max_length=1)
