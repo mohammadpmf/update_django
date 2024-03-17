@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from .models import Customer, Category, Product
+from .models import Customer, Category
 
 DOLLORS_TO_RIALS = 500000
 TAX=Decimal(0.09)
@@ -14,21 +14,24 @@ class CategorySerializer(serializers.Serializer):
         return f'alaki {category.pk}'
     
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['pk', 'name', 'category', 'category_link', 'slug', 'description',
-                   'price', 'unit_price', 'price_after_tax', 'inventory', 'amount', 
-                   'datetime_created', 'datetime_modified']
+class ProductSerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
+    name = serializers.CharField(max_length=255)
     category = CategorySerializer()
     category_link = serializers.HyperlinkedRelatedField(
         queryset = Category.objects.all(),
         view_name='category-detail',
         source='category'
     )
+    slug = serializers.SlugField()
+    description = serializers.CharField()
     price = serializers.DecimalField(max_digits=6, decimal_places=2, source='unit_price')
-    amount = serializers.IntegerField(source='inventory')
+    unit_price = serializers.DecimalField(max_digits=6, decimal_places=2)
     price_after_tax = serializers.SerializerMethodField()
+    inventory = serializers.IntegerField()
+    amount = serializers.IntegerField(source='inventory')
+    datetime_created = serializers.DateTimeField()
+    datetime_modified = serializers.DateTimeField()
     # discounts = serializers.ManyRelatedField()
 
     def get_price_after_tax(self, product):
