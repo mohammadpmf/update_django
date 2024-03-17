@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from random import randint
-from .models import Customer
+from .models import Customer, Category
 
 DOLLORS_TO_RIALS = 500000
 TAX=Decimal(0.09)
@@ -12,13 +11,18 @@ class CategorySerializer(serializers.Serializer):
     alaki_field = serializers.SerializerMethodField()
 
     def get_alaki_field(self, category):
-        return randint(1, 500)
+        return f'alaki {category.pk}'
 
 
 class ProductSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    pk = serializers.IntegerField()
     name = serializers.CharField(max_length=255)
     category = CategorySerializer()
+    category_link = serializers.HyperlinkedRelatedField(
+        queryset = Category.objects.all(),
+        view_name='category-detail',
+        source='category'
+    )
     slug = serializers.SlugField()
     description = serializers.CharField()
     price = serializers.DecimalField(max_digits=6, decimal_places=2, source='unit_price')

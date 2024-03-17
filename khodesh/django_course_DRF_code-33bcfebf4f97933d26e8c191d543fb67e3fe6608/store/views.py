@@ -4,23 +4,29 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Product, Order, OrderItem, Address, Customer
-from .serializers import ProductSerializer, OrderSerializer, OrderItemsSerializer, AddressSerializer, CustomerSerializer
+from .models import Product, Order, OrderItem, Address, Customer, Category
+from .serializers import ProductSerializer, CategorySerializer, OrderSerializer, OrderItemsSerializer, AddressSerializer, CustomerSerializer
 
 
 @api_view()
 def product_list(request):
     queryset = Product.objects.all().select_related('category').order_by('pk')
-    serializer = ProductSerializer(queryset, many=True)
+    serializer = ProductSerializer(queryset, many=True, context={'request': request})
     return Response(serializer.data)
 
 
 @api_view()
 def product_detail(request, pk):
     product = get_object_or_404(Product.objects.select_related('category'), pk=pk)
-    serializer = ProductSerializer(product)
+    serializer = ProductSerializer(product, context={'request': request})
     return Response(serializer.data)
 
+
+@api_view()
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    serializer = CategorySerializer(category)
+    return Response(serializer.data)
 
 @api_view()
 def addresses_list(request):
